@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import FurFriendlyContext from './FurFriendlyContext'
 
 import Space from './Space';
+import Filter from './Filter';
 
 
 export default class SpaceContainer extends Component {
@@ -10,12 +11,36 @@ export default class SpaceContainer extends Component {
 
     //need function for up/down voting
 
+
     render() {
-        console.log(this.props.space);
+        const filterType = this.context.filterType;
+        const filterCity = this.context.filterCity;
+
+        var filteredSpaces = this.context.spaces;
+
+        //Handles filtered results
+        if(filterType === 'All' || filterCity ==='All'){
+            filteredSpaces = this.context.spaces
+        }
+        if(filterType !== 'All'){
+            filteredSpaces = filteredSpaces.filter(space => space.type === filterType)
+        }
+        if(filterCity !== 'All'){
+            filteredSpaces = filteredSpaces.filter(space => space.city === filterCity)
+        }
+
+        var noResults = "";
+        if(filteredSpaces.length === 0){
+            noResults = `There are currently no spaces that fit your filter criteria - we'd love for you to go exploring and add new spaces to the list!`
+        }
 
         return (
-            <div className="spaceContainer">
-                {this.context.spaces.map(space => <Space space={space}/> )}
+            <div>
+                <Filter/>
+                <div className="spaceContainer">
+                    {filteredSpaces.map(space => <Space space={space}/> )}
+                    <p>{noResults}</p>
+                </div>
             </div>
         )
     }

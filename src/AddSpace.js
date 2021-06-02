@@ -9,7 +9,8 @@ export default class AddSpace extends Component {
         super(props);
         this.newSpaceName = React.createRef();
         this.newSpaceAddress = React.createRef();
-        this.newNoteFolder = React.createRef();
+        this.newSpaceType = React.createRef();
+        this.newSpaceCity = React.createRef();
     }
     state = {
         errorMsg: ''
@@ -18,31 +19,35 @@ export default class AddSpace extends Component {
     submitNewSpace = event => {
         event.preventDefault();
 
-        console.log("New Location Added!")
-        /*
+        console.log("New Space Added!")
+        
         if(!this.newSpaceName.current.value || !this.newSpaceAddress.current.value){
-            this.setState({
-                errorMsg: 'Space Name and Address are required and cannot be blank.'
-            })
+            //this.setState({
+            //    errorMsg: 'Space Name and Address are required and cannot be blank.'
+            //})
+            console.log("Name or address can't be blank.")
         }
+
         else{
-            this.context.addNote(this.newSpaceName.current.value,this.newSpaceAddress.current.value,this.newNoteFolder.current.value);
-            this.props.history.push(`/`)        
+            console.log(this.newSpaceName.current.value + this.newSpaceAddress.current.value + this.newSpaceType.current.value)
+            this.context.addSpace(this.newSpaceName.current.value, this.newSpaceAddress.current.value, this.newSpaceCity.current.value, this.newSpaceType.current.value);      
         }
-        */
     }
+
     //should add some form of address check/search? 
     render() {
         return (
             <div>
                 <h3>Create Note:</h3> 
-                <form onSubmit={this.submitNewNote}>
+                <form onSubmit={this.submitNewSpace}>
                     <label>Name:</label>
                     <input type='text' id='space-name-input'ref={this.newSpaceName}></input>
                     <label>Address:</label>
                     <input ref={this.newSpaceAddress}></input>
+                    <label>City:</label>
+                    <input ref={this.newSpaceCity}></input>
                     <label>Location Type:</label>
-                    <select ref={this.newNoteFolder}>
+                    <select ref={this.newSpaceType}>
                         {this.context.types.map(type => (
                             <option value={type}>{type}</option>
                         ))}

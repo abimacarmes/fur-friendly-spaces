@@ -4,16 +4,20 @@ import './App.css';
 
 import FurFriendlyContext from './FurFriendlyContext'
 
-import Space from './Space';
+import Filter from './Filter'
 import SpaceContainer from './SpaceContainer'
 import AddSpace from './AddSpace'
+import Map from './Map'
+import Homepage from './Homepage'
 
 import STORE from './dummy-store';
 
 export default class App extends Component {
     static contextType = FurFriendlyContext;
     state = {
-        spaces: []
+        spaces: STORE.spaces,
+        filterType: "All",
+        filterCity: "All"
     }
     /*
     componentDidMount(){
@@ -49,26 +53,24 @@ export default class App extends Component {
             console.log(error.message)
         )
     }
+    */
 
-    addNote = (noteName,noteText,noteFolder) => {
-        console.log('Adding Note: '+noteName)
-        const oldNotes = this.state.notes
+    addSpace = (name, address, city, type) => {
+        console.log('Adding Space: '+ name)
+        const oldSpaces = this.state.spaces
 
-        const folder = this.state.folders.find(folder => folder.name === noteFolder)
-        const modified = new Date().toLocaleString()
-
-        oldNotes.push({
-            "id":`${this.generateID()+"ffaf-11e8-8eb2-f2801f1b9fd1"}`,
-            "name":`${noteName}`,
-            "modified":`${modified}`,
-            "folderid":`${folder.folderid}`,
-            "content":`${noteText}`
+        oldSpaces.push({
+            "name":`${name}`,
+            "address":`${address}`,
+            "city":`${city}`,
+            "type":`${type}`
         })
 
         this.setState({
-            notes: oldNotes
+            spaces: oldSpaces
         })
 
+        /*
         fetch(`https://obscure-hollows-57839.herokuapp.com/notes/`, {
             method: 'POST',
             headers: {
@@ -92,24 +94,47 @@ export default class App extends Component {
         .catch(error => {
             console.log(error.message)
         })
+        */
     }
 
-    generateID = () => {
-        const characterOptions = 'abcdefghijklmnopqrstuvwxyz0123456789'
-        let id =''
-        var charactersLength = characterOptions.length;
-        for ( var i = 0; i < 7; i++ ) {
-            id += characterOptions.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return id;
+    updateFilterType = (filter) => {
+        console.log('Filter by ' + filter);
+        
+        this.setState({
+            filterType: filter
+        })
     }
-    */
+
+    updateFilterCity = (filter) => {
+        console.log('Filter by ' + filter);
+
+        this.setState({
+            filterCity: filter
+        })
+    }
+    
+    mainRoutes = () => {
+        return(
+            <>
+                <Route exact path='/' component={Homepage}/>
+                <Route path='/spaces' component={SpaceContainer}/>
+                <Route path='add-space' component={AddSpace}/>
+            </>
+        )
+    }
 
     render(){
         const contextValue = {
-            spaces: STORE.spaces,
-            types: STORE.types
+            spaces: this.state.spaces,
+            types: STORE.types,
+            addSpace: this.addSpace,
+            updateFilterType: this.updateFilterType,
+            filterType: this.state.filterType,
+            updateFilterCity: this.updateFilterCity,
+            filterCity: this.state.filterCity
         }
+        
+
         return(
             <BrowserRouter>
                 <FurFriendlyContext.Provider value={contextValue}>
@@ -118,8 +143,8 @@ export default class App extends Component {
                     </header>
                     <div className='app'>
                             <main>
-                                <AddSpace />
-                                <SpaceContainer />
+                                {this.mainRoutes()}
+                                
                             </main>
                     </div>
                 </FurFriendlyContext.Provider>
