@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 //import {Route, Link, BrowserRouter} from 'react-router-dom';
 import FurFriendlyContext from './FurFriendlyContext'
-import PropTypes from 'prop-types';
 
 export default class AddSpace extends Component {
     static contextType = FurFriendlyContext;
@@ -31,7 +30,9 @@ export default class AddSpace extends Component {
         else{
             console.log(this.newSpaceName.current.value + this.newSpaceAddress.current.value + this.newSpaceType.current.value)
             this.context.addSpace(this.newSpaceName.current.value, this.newSpaceAddress.current.value, this.newSpaceCity.current.value, this.newSpaceType.current.value);      
+            this.props.history.push('/spaces')
         }
+        
     }
 
     //should add some form of address check/search? 

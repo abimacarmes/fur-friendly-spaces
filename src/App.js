@@ -4,10 +4,9 @@ import './App.css';
 
 import FurFriendlyContext from './FurFriendlyContext'
 
-import Filter from './Filter'
 import SpaceContainer from './SpaceContainer'
 import AddSpace from './AddSpace'
-import Map from './Map'
+//import Map from './Map'
 import Homepage from './Homepage'
 
 import STORE from './dummy-store';
@@ -15,45 +14,29 @@ import STORE from './dummy-store';
 export default class App extends Component {
     static contextType = FurFriendlyContext;
     state = {
-        spaces: STORE.spaces,
+        spaces: [],
         filterType: "All",
         filterCity: "All"
     }
-    /*
+    
     componentDidMount(){
-        fetch('https://obscure-hollows-57839.herokuapp.com/notes')
-        .then(notesResult => {
-            if(!notesResult.ok){
+        fetch('https://enigmatic-basin-32386.herokuapp.com/spaces')
+        .then(spacesResult => {
+            if(!spacesResult.ok){
                 throw new Error('Something went wrong.');
             }
-            return notesResult.json()
+            return spacesResult.json()
         })
-        .then(notesJson => {
+        .then(spacesJson => {
             this.setState({
-                notes: notesJson
-            })
-        })
-        .catch(error =>
-            console.log(error.message)
-        )
-
-        fetch('https://obscure-hollows-57839.herokuapp.com/folders')
-        .then(foldersResult => {
-            if(!foldersResult.ok){
-                throw new Error('Something went wrong.');
-            }
-            return foldersResult.json()
-        })
-        .then(foldersJson => {
-            this.setState({
-                folders: foldersJson
+                spaces: spacesJson
             })
         })
         .catch(error =>
             console.log(error.message)
         )
     }
-    */
+    
 
     addSpace = (name, address, city, type) => {
         console.log('Adding Space: '+ name)
@@ -70,18 +53,16 @@ export default class App extends Component {
             spaces: oldSpaces
         })
 
-        /*
-        fetch(`https://obscure-hollows-57839.herokuapp.com/notes/`, {
+        fetch(`https://enigmatic-basin-32386.herokuapp.com/spaces`, {
             method: 'POST',
             headers: {
               'content-type': 'application/json',
             },
             body: JSON.stringify({
-                "id":`${this.generateID()}`,
-                "name":`${noteName}`,
-                "modified":`${modified}`,
-                "folderid":`${folder.folderid}`,
-                "content":`${noteText}`
+                "name":`${name}`,
+                "address":`${address}`,
+                "city":`${city}`,
+                "type":`${type}`
             })
           }
         )
@@ -94,7 +75,7 @@ export default class App extends Component {
         .catch(error => {
             console.log(error.message)
         })
-        */
+        
     }
 
     updateFilterType = (filter) => {
@@ -112,13 +93,85 @@ export default class App extends Component {
             filterCity: filter
         })
     }
+
+    upVote = (id) => {
+        const spaceIndex = this.state.spaces.findIndex(space => space.id === id);
+        
+        const oldSpaces = this.state.spaces;
+        oldSpaces[spaceIndex].upcount = oldSpaces[spaceIndex].upcount + 1;
+
+        const newUpCount = oldSpaces[spaceIndex].upcount;
+        const downCount = oldSpaces[spaceIndex].downcount;
+        
+        this.setState({
+            spaces: oldSpaces
+        })
+
+        fetch(`https://enigmatic-basin-32386.herokuapp.com/spaces/${id}`, {
+            method: 'PATCH',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                "id":`${id}`,
+                "upCount":`${newUpCount}`,
+                "downCount":`${downCount}`
+            })
+          }
+        )
+        .then(result => {
+            if(!result.ok){
+                throw new Error('Something went wrong.')
+            }
+            return result.json()
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
+    }
+
+    downVote = (id) => {
+        const spaceIndex = this.state.spaces.findIndex(space => space.id === id)
+        
+        const oldSpaces = this.state.spaces
+        oldSpaces[spaceIndex].downcount = oldSpaces[spaceIndex].downcount + 1;
+
+        const upCount = oldSpaces[spaceIndex].upcount;
+        const newDownCount = oldSpaces[spaceIndex].downcount;
+        
+        this.setState({
+            spaces: oldSpaces
+        })
+
+        fetch(`https://enigmatic-basin-32386.herokuapp.com/spaces/${id}`, {
+            method: 'PATCH',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                "id":`${id}`,
+                "upCount":`${upCount}`,
+                "downCount":`${newDownCount}`
+            })
+          }
+        )
+        .then(result => {
+            if(!result.ok){
+                throw new Error('Something went wrong.')
+            }
+            return result.json()
+        })
+        .catch(error => {
+            console.log(error.message)
+        })
+    }
     
     mainRoutes = () => {
         return(
             <>
                 <Route exact path='/' component={Homepage}/>
                 <Route path='/spaces' component={SpaceContainer}/>
-                <Route path='add-space' component={AddSpace}/>
+                <Route path='/add-space' component={AddSpace}/>
             </>
         )
     }
@@ -131,7 +184,9 @@ export default class App extends Component {
             updateFilterType: this.updateFilterType,
             filterType: this.state.filterType,
             updateFilterCity: this.updateFilterCity,
-            filterCity: this.state.filterCity
+            filterCity: this.state.filterCity,
+            upVote: this.upVote,
+            downVote: this.downVote
         }
         
 
@@ -144,7 +199,6 @@ export default class App extends Component {
                     <div className='app'>
                             <main>
                                 {this.mainRoutes()}
-                                
                             </main>
                     </div>
                 </FurFriendlyContext.Provider>

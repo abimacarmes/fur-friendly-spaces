@@ -7,6 +7,8 @@ const FurFriendlyContext = React.createContext({
     filterType: "",
     updateFilterType: () => {},
     filterCity: "",
-    updateFilterCity: () => {}
+    updateFilterCity: () => {},
+    upVote: () => {},
+    downVote: () => {}
 })
 export default FurFriendlyContext;

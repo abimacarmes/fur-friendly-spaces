@@ -1,28 +1,47 @@
 import React, { Component } from 'react'
-//import {Route, Link, BrowserRouter} from 'react-router-dom';
 import FurFriendlyContext from './FurFriendlyContext'
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 
 
 export default class Space extends Component {
     static contextType = FurFriendlyContext;
+    state = {
+        positiveImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533907.png",
+        negativeImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533915.png"
+    }
 
     //need function for up/down voting
+    onUpVote = event => {
+        event.preventDefault();
+
+        this.setState({
+            positiveImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533913.png"
+        })
+
+        this.context.upVote(this.props.space.id)
+    }
+
+    onDownVote = event => {
+        event.preventDefault();
+
+        this.setState({
+            negativeImgSrc: 'https://image.flaticon.com/icons/png/512/1533/1533919.png'
+        })
+
+        this.context.downVote(this.props.space.id)
+    }
 
     render() {
         const {space} = this.props;
-        var positiveImgSrc = "./Icons/positive-vote.jpg"
-        var negativeImgSrc = "./Icons/negative-vote.png"
 
         return (
-            <div className="space" id={space.id}>
+            <div className="space" key={space.id}>
                 <h2>Name: {space.name}</h2>
                 <h3>Address: {space.address}</h3>
                 <h3>City: {space.city}</h3>
                 <h3>Location Type: {space.type}</h3>
-                <p>Voting Buttons</p>
-                <p><img src={positiveImgSrc} alt="Positive Vote" width="100" height="100"/> {space.upCount}</p>
-                <p><img src={negativeImgSrc} alt="Negative Vote" width="100" height="100"/> {space.downCount}</p>
+                <p><img onClick={this.onUpVote} src={this.state.positiveImgSrc} alt="Positive Vote" width="3%" height="3%"/> {space.upcount}</p>
+                <p><img onClick={this.onDownVote} src={this.state.negativeImgSrc} alt="Negative Vote" width="3%" height="3%"/> {space.downcount}</p>
             </div>
         )
     }

@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-//import {Route, Link, BrowserRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import FurFriendlyContext from './FurFriendlyContext'
-
-import SpaceContainer from './SpaceContainer';
-import Space from './Space';
-
 
 export default class Filter extends Component {
     static contextType = FurFriendlyContext;
@@ -31,21 +27,23 @@ export default class Filter extends Component {
                 <form onSubmit={this.filterResults}>
                     <label>Filter By Location Type: </label>
                     <select ref={this.filterType}>
-                        <option value='All'>All</option>
+                        <option value={this.context.filterType}>{this.context.filterType}</option>
                         {this.context.types.map(type => (
                             <option value={type}>{type}</option>
                         ))}
                     </select>
                     <label>Filter By City: </label>
                     <select ref={this.filterCity}>
-                        <option value='All'>All</option>
+                        <option value={this.context.filterCity}>{this.context.filterCity}</option>
                         {cities.map(city => (
                             <option value={city}>{city}</option>
                         ))}
                     </select>
                     <button type='submit'>Submit</button>
                 </form>
-                
+                <form onSubmit={function(event){event.preventDefault()}}>
+                    <button><Link to='/add-space'>Add Space</Link></button>
+                </form>
             </div>
         )
     }
