@@ -20,22 +20,27 @@ export default class Filter extends Component {
     }
 
     render() {
-        const cities = [...new Set(this.context.spaces.map(space => space.city))]
+        const cities =this.context.spaces.map(space => space.city)
+        cities.unshift('All')
+        
+        const citiesFilter = [...new Set(cities)]
+
+        const types = this.context.types
+        types.unshift('All')
+        
 
         return (
             <div className="filter">
                 <form onSubmit={this.filterResults}>
                     <label>Filter By Location Type: </label>
                     <select ref={this.filterType}>
-                        <option value={this.context.filterType}>{this.context.filterType}</option>
-                        {this.context.types.map(type => (
+                        {types.map(type => (
                             <option value={type}>{type}</option>
                         ))}
                     </select>
                     <label>Filter By City: </label>
                     <select ref={this.filterCity}>
-                        <option value={this.context.filterCity}>{this.context.filterCity}</option>
-                        {cities.map(city => (
+                        {citiesFilter.map(city => (
                             <option value={city}>{city}</option>
                         ))}
                     </select>
