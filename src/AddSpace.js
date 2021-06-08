@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 //import {Route, Link, BrowserRouter} from 'react-router-dom';
 import FurFriendlyContext from './FurFriendlyContext'
+import Space from './Space'
 
 export default class AddSpace extends Component {
     static contextType = FurFriendlyContext;
@@ -10,59 +11,65 @@ export default class AddSpace extends Component {
         this.newSpaceType = React.createRef();
     }
     state = {
-        displaySearch: '',
-        resultName: '',
-        resultAddress: '',
-        resultCity: '',
-        resultType:''
+        displaySearch: false,
+        spaceSearch: {}
     }
 
     spaceSearch = event => {
         event.preventDefault();
+        this.setState({
+            displaySearch:false
+        })
         var searchResult = {}
         
         const formattedSearch = this.newSpaceName.current.value.split(' ').join('%20');
 
         if(this.newSpaceName.current.value){    
-            fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedSearch}&inputtype=textquery&fields=formatted_address,name&key=AIzaSyB0ksRosNOMHsE-YH4uj5eB27eW0fHwdlc`,{mode:'no-cors'})
+            fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedSearch}&inputtype=textquery&fields=formatted_address,name&key=AIzaSyB0ksRosNOMHsE-YH4uj5eB27eW0fHwdlc`)
             .then(searchResult => {
                 if(!searchResult.ok){
                     throw new Error('Something went wrong.');
                 }
-                console.log(searchResult)
                 return searchResult.json()
             })
             .then(searchJson => {
-                searchResult = searchJson
+                searchResult = searchJson.candidates[0];
+                this.setState({
+                    displaySearch: true,
+                    spaceSearch: {
+                        "id": "N/A",
+                        "name": searchResult.name,
+                        "address":searchResult.formatted_address.split(', ')[0],
+                        "city":searchResult.formatted_address.split(', ')[1],
+                        "type": this.newSpaceType.current.value,
+                        "upCount": 0,
+                        "downCount": 0
+                    }  
+                });
             })
             .catch(error =>
                 console.log(error.message)
             )
         }
-        
-        
     }
 
     submitNewSpace = event => {
         event.preventDefault();
 
         console.log("New Space Added!")
-        
-        if(!this.newSpaceName.current.value || !this.newSpaceAddress.current.value){
-            console.log("Name or address can't be blank.")
-        }
 
-        else{
-            console.log(this.newSpaceName.current.value + this.newSpaceAddress.current.value + this.newSpaceType.current.value)
-            this.context.addSpace(this.newSpaceName.current.value, this.newSpaceAddress.current.value, this.newSpaceCity.current.value, this.newSpaceType.current.value);      
-            this.props.history.push('/spaces')
-        }
+        this.context.addSpace(this.state.spaceSearch.name, this.state.spaceSearch.address, this.state.spaceSearch.city, this.state.spaceSearch.type);      
+        this.props.history.push('/spaces')
     }
 
-
-
-    //should add some form of address check/search? 
     render() { 
+        let sampleSpace;
+        let sampleConfirmButton;
+
+        if(this.state.displaySearch){
+            sampleSpace = <Space space={this.state.spaceSearch}/>
+            sampleConfirmButton = <form onSubmit={this.submitNewSpace}><button type='submit'>Submit New Space</button></form>
+        }
 
         return (
             <div>
@@ -78,6 +85,8 @@ export default class AddSpace extends Component {
                     </select>
                     <button type='submit'>Submit</button>
                 </form>
+                {sampleSpace}
+                {sampleConfirmButton}
             </div>
         )
     }

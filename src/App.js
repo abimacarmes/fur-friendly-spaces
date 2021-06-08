@@ -21,8 +21,6 @@ export default class App extends Component {
     }  
 
     componentDidMount(){
-        console.log(`${API_URL_BASE}/spaces`)
-
         fetch(`${API_URL_BASE}/spaces`)
         .then(spacesResult => {
             if(!spacesResult.ok){
