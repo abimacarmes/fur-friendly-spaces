@@ -7,12 +7,40 @@ export default class AddSpace extends Component {
     constructor (props){
         super(props);
         this.newSpaceName = React.createRef();
-        this.newSpaceAddress = React.createRef();
         this.newSpaceType = React.createRef();
-        this.newSpaceCity = React.createRef();
     }
     state = {
-        errorMsg: ''
+        displaySearch: '',
+        resultName: '',
+        resultAddress: '',
+        resultCity: '',
+        resultType:''
+    }
+
+    spaceSearch = event => {
+        event.preventDefault();
+        var searchResult = {}
+        
+        const formattedSearch = this.newSpaceName.current.value.split(' ').join('%20');
+
+        if(this.newSpaceName.current.value){    
+            fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedSearch}&inputtype=textquery&fields=formatted_address,name&key=AIzaSyB0ksRosNOMHsE-YH4uj5eB27eW0fHwdlc`,{mode:'no-cors'})
+            .then(searchResult => {
+                if(!searchResult.ok){
+                    throw new Error('Something went wrong.');
+                }
+                console.log(searchResult)
+                return searchResult.json()
+            })
+            .then(searchJson => {
+                searchResult = searchJson
+            })
+            .catch(error =>
+                console.log(error.message)
+            )
+        }
+        
+        
     }
 
     submitNewSpace = event => {
@@ -21,9 +49,6 @@ export default class AddSpace extends Component {
         console.log("New Space Added!")
         
         if(!this.newSpaceName.current.value || !this.newSpaceAddress.current.value){
-            //this.setState({
-            //    errorMsg: 'Space Name and Address are required and cannot be blank.'
-            //})
             console.log("Name or address can't be blank.")
         }
 
@@ -32,28 +57,25 @@ export default class AddSpace extends Component {
             this.context.addSpace(this.newSpaceName.current.value, this.newSpaceAddress.current.value, this.newSpaceCity.current.value, this.newSpaceType.current.value);      
             this.props.history.push('/spaces')
         }
-        
     }
 
+
+
     //should add some form of address check/search? 
-    render() {
+    render() { 
+
         return (
             <div>
                 <h3>Create Note:</h3> 
-                <form onSubmit={this.submitNewSpace}>
+                <form onSubmit={this.spaceSearch}>
                     <label>Name:</label>
                     <input type='text' id='space-name-input'ref={this.newSpaceName}></input>
-                    <label>Address:</label>
-                    <input ref={this.newSpaceAddress}></input>
-                    <label>City:</label>
-                    <input ref={this.newSpaceCity}></input>
                     <label>Location Type:</label>
                     <select ref={this.newSpaceType}>
                         {this.context.types.map(type => (
                             <option value={type}>{type}</option>
                         ))}
                     </select>
-                    <h3>{this.state.errorMsg}</h3>
                     <button type='submit'>Submit</button>
                 </form>
             </div>

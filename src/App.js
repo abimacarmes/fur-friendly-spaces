@@ -6,10 +6,11 @@ import FurFriendlyContext from './FurFriendlyContext'
 
 import SpaceContainer from './SpaceContainer'
 import AddSpace from './AddSpace'
-//import Map from './Map'
 import Homepage from './Homepage'
 
 import STORE from './dummy-store';
+
+const API_URL_BASE = "https://enigmatic-basin-32386.herokuapp.com/api"
 
 export default class App extends Component {
     static contextType = FurFriendlyContext;
@@ -17,10 +18,12 @@ export default class App extends Component {
         spaces: [],
         filterType: "All",
         filterCity: "All"
-    }
-    
+    }  
+
     componentDidMount(){
-        fetch('https://enigmatic-basin-32386.herokuapp.com/spaces')
+        console.log(`${API_URL_BASE}/spaces`)
+
+        fetch(`${API_URL_BASE}/spaces`)
         .then(spacesResult => {
             if(!spacesResult.ok){
                 throw new Error('Something went wrong.');
@@ -31,6 +34,7 @@ export default class App extends Component {
             this.setState({
                 spaces: spacesJson
             })
+            
         })
         .catch(error =>
             console.log(error.message)
@@ -53,7 +57,7 @@ export default class App extends Component {
             spaces: oldSpaces
         })
 
-        fetch(`https://enigmatic-basin-32386.herokuapp.com/spaces`, {
+        fetch(`${API_URL_BASE}/spaces`, {
             method: 'POST',
             headers: {
               'content-type': 'application/json',
@@ -107,7 +111,7 @@ export default class App extends Component {
             spaces: oldSpaces
         })
 
-        fetch(`https://enigmatic-basin-32386.herokuapp.com/spaces/${id}`, {
+        fetch(`${API_URL_BASE}/spaces/${id}`, {
             method: 'PATCH',
             headers: {
               'content-type': 'application/json',
@@ -143,7 +147,7 @@ export default class App extends Component {
             spaces: oldSpaces
         })
 
-        fetch(`https://enigmatic-basin-32386.herokuapp.com/spaces/${id}`, {
+        fetch(`${API_URL_BASE}/spaces/${id}`, {
             method: 'PATCH',
             headers: {
               'content-type': 'application/json',
@@ -187,8 +191,7 @@ export default class App extends Component {
             filterCity: this.state.filterCity,
             upVote: this.upVote,
             downVote: this.downVote
-        }
-        
+        }       
 
         return(
             <BrowserRouter>
