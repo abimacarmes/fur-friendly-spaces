@@ -7,6 +7,9 @@ export default class Homepage extends Component {
 
     render() {
         const cities = [...new Set(this.context.spaces.map(space => space.city))]
+        cities.unshift('All')
+        
+        const citiesFilter = [...new Set(cities)]
 
         return (
             <div className="homepage">
@@ -18,8 +21,8 @@ export default class Homepage extends Component {
                 <p>If you visit one of the recommended spaces, feel free to give it a vote based on your experience with your pup! This just makes it easier for everyone to make sure wherever they go, their four-legged friend can too.</p>
 
                 <h3>Browse the available cities below:</h3>
-                {cities.map(city => (
-                    <button 
+                {citiesFilter.map(city => (
+                    <button key={city}
                         onClick={() => {
                             this.context.updateFilterCity(city);
                             this.props.history.push('/spaces');
@@ -31,15 +34,4 @@ export default class Homepage extends Component {
         )
     }
 }
-
-/*
-Note.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            noteId: PropTypes.string.isRequired,
-            history: PropTypes.object
-        })
-    }) 
-}
-*/
 

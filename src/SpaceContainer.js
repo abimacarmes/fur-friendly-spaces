@@ -9,9 +9,6 @@ import Filter from './Filter';
 export default class SpaceContainer extends Component {
     static contextType = FurFriendlyContext;
 
-    //need function for up/down voting
-
-
     render() {
         const filterType = this.context.filterType;
         const filterCity = this.context.filterCity;
@@ -38,22 +35,10 @@ export default class SpaceContainer extends Component {
             <div>
                 <Filter/>
                 <div className="spaceContainer">
-                    {filteredSpaces.map(space => <Space space={space}/> )}
+                    {filteredSpaces.map(space => <Space key={space.id} space={space}/> )}
                     <p>{noResults}</p>
                 </div>
             </div>
         )
     }
 }
-
-/*
-Note.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            noteId: PropTypes.string.isRequired,
-            history: PropTypes.object
-        })
-    }) 
-}
-*/
-

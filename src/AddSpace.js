@@ -12,13 +12,15 @@ export default class AddSpace extends Component {
     }
     state = {
         displaySearch: false,
-        spaceSearch: {}
+        spaceSearch: {},
+        errorMessage:''
     }
 
     spaceSearch = event => {
         event.preventDefault();
         this.setState({
-            displaySearch:false
+            displaySearch:false,
+            errorMessage:''
         })
         var searchResult = {}
         
@@ -56,15 +58,26 @@ export default class AddSpace extends Component {
     submitNewSpace = event => {
         event.preventDefault();
 
-        console.log("New Space Added!")
+        const currSpaces = this.context.spaces;
 
-        this.context.addSpace(this.state.spaceSearch.name, this.state.spaceSearch.address, this.state.spaceSearch.city, this.state.spaceSearch.type);      
-        this.props.history.push('/spaces')
+        var repeatSpace = currSpaces.filter(space => space.name===this.state.spaceSearch.name && space.address===this.state.spaceSearch.address && space.city===this.state.spaceSearch.city && space.type===this.state.spaceSearch.type)
+
+        if(repeatSpace.length===0){
+            this.context.addSpace(this.state.spaceSearch.name, this.state.spaceSearch.address, this.state.spaceSearch.city, this.state.spaceSearch.type);      
+            this.props.history.push('/spaces')
+        }
+        else{
+            this.setState({
+                errorMessage:"We already have this location! Please try another one.",
+                displaySearch: false
+            })
+        }
     }
 
     render() { 
         let sampleSpace;
         let sampleConfirmButton;
+        let errorMessage = this.state.errorMessage;
 
         if(this.state.displaySearch){
             sampleSpace = <Space space={this.state.spaceSearch}/>
@@ -80,13 +93,14 @@ export default class AddSpace extends Component {
                     <label>Location Type:</label>
                     <select ref={this.newSpaceType}>
                         {this.context.types.map(type => (
-                            <option value={type}>{type}</option>
+                            <option key={type} value={type}>{type}</option>
                         ))}
                     </select>
                     <button type='submit'>Submit</button>
                 </form>
                 {sampleSpace}
                 {sampleConfirmButton}
+                {errorMessage}
             </div>
         )
     }

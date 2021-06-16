@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import FurFriendlyContext from './FurFriendlyContext'
-//import PropTypes from 'prop-types';
 
 
 export default class Space extends Component {
@@ -46,15 +45,4 @@ export default class Space extends Component {
         )
     }
 }
-
-/*
-Note.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            noteId: PropTypes.string.isRequired,
-            history: PropTypes.object
-        })
-    }) 
-}
-*/
 

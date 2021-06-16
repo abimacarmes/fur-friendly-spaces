@@ -28,20 +28,22 @@ export default class Filter extends Component {
         const types = this.context.types
         types.unshift('All')
         
+        const typesFilter = [...new Set(types)]
+        
 
         return (
             <div className="filter">
                 <form onSubmit={this.filterResults}>
                     <label>Filter By Location Type: </label>
                     <select ref={this.filterType}>
-                        {types.map(type => (
-                            <option value={type}>{type}</option>
+                        {typesFilter.map(type => (
+                            <option key={type} value={type}>{type}</option>
                         ))}
                     </select>
                     <label>Filter By City: </label>
                     <select ref={this.filterCity}>
                         {citiesFilter.map(city => (
-                            <option value={city}>{city}</option>
+                            <option key={city} value={city}>{city}</option>
                         ))}
                     </select>
                     <button type='submit'>Submit</button>
@@ -53,15 +55,3 @@ export default class Filter extends Component {
         )
     }
 }
-
-/*
-Note.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            noteId: PropTypes.string.isRequired,
-            history: PropTypes.object
-        })
-    }) 
-}
-*/
-
