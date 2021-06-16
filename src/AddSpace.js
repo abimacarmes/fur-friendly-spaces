@@ -79,6 +79,8 @@ export default class AddSpace extends Component {
         let sampleConfirmButton;
         let errorMessage = this.state.errorMessage;
 
+        const types = this.context.types.filter(type => type !=='All');
+
         if(this.state.displaySearch){
             sampleSpace = <Space space={this.state.spaceSearch}/>
             sampleConfirmButton = <form onSubmit={this.submitNewSpace}><button type='submit'>Submit New Space</button></form>
@@ -92,7 +94,7 @@ export default class AddSpace extends Component {
                     <input type='text' id='space-name-input'ref={this.newSpaceName}></input>
                     <label>Location Type:</label>
                     <select ref={this.newSpaceType}>
-                        {this.context.types.map(type => (
+                        {types.map(type => (
                             <option key={type} value={type}>{type}</option>
                         ))}
                     </select>
