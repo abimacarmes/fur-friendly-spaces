@@ -195,7 +195,7 @@ export default class App extends Component {
             <BrowserRouter>
                 <FurFriendlyContext.Provider value={contextValue}>
                     <header>
-                        <Link to='/'><h1>Fur Friendly Spaces</h1></Link>
+                        <Link to='/spaces'><h1>Fur Friendly Spaces</h1></Link>
                     </header>
                     <div className='app'>
                             <main>

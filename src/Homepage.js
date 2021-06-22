@@ -19,8 +19,7 @@ export default class Homepage extends Component {
                 <p>Whether you're visiting a new city or just trying to find a nice patio where you can both enjoy some time in the sun.</p>
                 <p>Fur Friendly Spaces allows dog-lovers to find and submit places they've found that are dog friendly.</p>
                 <p>If you visit one of the recommended spaces, feel free to give it a vote based on your experience with your pup! This just makes it easier for everyone to make sure wherever they go, their four-legged friend can too.</p>
-
-                <h3>Browse the available cities below:</h3>
+                <h4>Browse the available cities below:</h4>
                 {citiesFilter.map(city => (
                     <button key={city}
                         onClick={() => {

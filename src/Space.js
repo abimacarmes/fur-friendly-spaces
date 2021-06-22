@@ -1,3 +1,4 @@
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import React, { Component } from 'react'
 import FurFriendlyContext from './FurFriendlyContext'
 
@@ -13,21 +14,25 @@ export default class Space extends Component {
     onUpVote = event => {
         event.preventDefault();
 
-        this.setState({
-            positiveImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533913.png"
-        })
+        if(this.props.space.id !== "N/A"){ 
+            this.setState({
+                positiveImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533913.png"
+            })
 
-        this.context.upVote(this.props.space.id)
+            this.context.upVote(this.props.space.id)
+        }
     }
 
     onDownVote = event => {
         event.preventDefault();
 
-        this.setState({
-            negativeImgSrc: 'https://image.flaticon.com/icons/png/512/1533/1533919.png'
-        })
-
-        this.context.downVote(this.props.space.id)
+        if(this.props.space.id !== "N/A"){
+            this.setState({
+                negativeImgSrc: 'https://image.flaticon.com/icons/png/512/1533/1533919.png'
+            })
+    
+            this.context.downVote(this.props.space.id)
+        }
     }
 
     render() {
@@ -35,12 +40,22 @@ export default class Space extends Component {
 
         return (
             <div className="space" key={space.id}>
-                <h2>Name: {space.name}</h2>
-                <h3>Address: {space.address}</h3>
-                <h3>City: {space.city}</h3>
-                <h3>Location Type: {space.type}</h3>
-                <p><img onClick={this.onUpVote} src={this.state.positiveImgSrc} alt="Positive Vote" width="3%" height="3%"/> {space.upcount}</p>
-                <p><img onClick={this.onDownVote} src={this.state.negativeImgSrc} alt="Negative Vote" width="3%" height="3%"/> {space.downcount}</p>
+                <div className="spaceInfo">
+                    <h2>Name:  {space.name}</h2>
+                    <h3>Address:  {space.address}</h3>
+                    <h3>City:  {space.city}</h3>
+                    <h3>Location Type:  {space.type}</h3>
+                </div>
+                <div className="spaceVotes">
+                    <div className="upVote">
+                        <img onClick={this.onUpVote} src={this.state.positiveImgSrc} alt="Positive Vote" width="10%" height="10%"/>
+                        <h3>  {space.upcount}</h3>
+                    </div>
+                    <div className="downVote">
+                        <img onClick={this.onDownVote} src={this.state.negativeImgSrc} alt="Negative Vote" width="10%" height="10%"/>
+                        <h3>  {space.downcount}</h3>
+                    </div>
+                </div>
             </div>
         )
     }

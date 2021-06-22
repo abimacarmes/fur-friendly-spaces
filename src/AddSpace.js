@@ -83,23 +83,25 @@ export default class AddSpace extends Component {
 
         if(this.state.displaySearch){
             sampleSpace = <Space space={this.state.spaceSearch}/>
-            sampleConfirmButton = <form onSubmit={this.submitNewSpace}><button type='submit'>Submit New Space</button></form>
+            sampleConfirmButton = <form className="addSpaceConfirm" onSubmit={this.submitNewSpace}><button type='submit'>Submit New Space</button></form>
         }
 
         return (
             <div>
-                <h3>Create Note:</h3> 
-                <form onSubmit={this.spaceSearch}>
-                    <label>Name:</label>
-                    <input type='text' id='space-name-input'ref={this.newSpaceName}></input>
-                    <label>Location Type:</label>
-                    <select ref={this.newSpaceType}>
-                        {types.map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
-                    <button type='submit'>Submit</button>
-                </form>
+                <div className="newSpace">
+                    <h3>Create Note:</h3> 
+                    <form onSubmit={this.spaceSearch}>
+                        <label>Name:</label>
+                        <input type='text' id='space-name-input'ref={this.newSpaceName}></input>
+                        <label>Location Type:</label>
+                        <select ref={this.newSpaceType}>
+                            {types.map(type => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                        <button type='submit'>Submit</button>
+                    </form>
+                </div>
                 {sampleSpace}
                 {sampleConfirmButton}
                 {errorMessage}

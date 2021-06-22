@@ -32,15 +32,16 @@ export default class Filter extends Component {
         
 
         return (
-            <div className="filter">
-                <form onSubmit={this.filterResults}>
-                    <label>Filter By Location Type: </label>
+            <div className="filter content">
+                <form className="triple filterGroup" onSubmit={this.filterResults}>
+                    <h4>Filter By</h4>
+                    <label>Location Type: </label>
                     <select ref={this.filterType}>
                         {typesFilter.map(type => (
                             <option key={type} value={type}>{type}</option>
                         ))}
                     </select>
-                    <label>Filter By City: </label>
+                    <label>City: </label>
                     <select ref={this.filterCity}>
                         {citiesFilter.map(city => (
                             <option key={city} value={city}>{city}</option>
@@ -48,9 +49,11 @@ export default class Filter extends Component {
                     </select>
                     <button type='submit'>Submit</button>
                 </form>
-                <form onSubmit={function(event){event.preventDefault()}}>
-                    <button><Link to='/add-space'>Add Space</Link></button>
-                </form>
+                <div className="filterItem">
+                    <form  onSubmit={function(event){event.preventDefault()}}>
+                        <button><Link to='/add-space'>Add Space</Link></button>
+                    </form>
+                </div>
             </div>
         )
     }
