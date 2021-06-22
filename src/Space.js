@@ -1,4 +1,3 @@
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import React, { Component } from 'react'
 import FurFriendlyContext from './FurFriendlyContext'
 
