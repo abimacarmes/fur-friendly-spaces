@@ -1,4 +1,4 @@
-Noteful
+Fur-Friendly-Spaces
 GitHub: https://github.com/abimacarmes/fur-friendly-spaces
 Live Link: https://fur-friendly-spaces-abimacarmes.vercel.app/
 
@@ -12,3 +12,24 @@ Future Goals: Further utilization of the Google Maps API to show a map of the di
 
 Screenshots:
 ![image](/src/screenshots/AllSpaces.JPG)
+
+API Documentation: 
+GitHub: https://github.com/abimacarmes/fur-friendly-database
+Live Link: https://enigmatic-basin-32386.herokuapp.com/api/
+
+- /spaces GET: gets all items in the 'spaces' table
+- /spaces POST: adds a new space to the 'spaces' table
+	Request Body:
+		{
+    			"name": String,
+        		"address": String,
+		        "city": String,
+		        "type": String
+		}
+-/spaces/:id PATCH: updates the upvote or downvote count for the space who's 'id' is provided
+	Request Body:
+		{
+    			"id": Int,
+        		"upCount": Int,
+		        "downCount": Int
+		}
