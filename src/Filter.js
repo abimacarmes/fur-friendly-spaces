@@ -11,7 +11,7 @@ export default class Filter extends Component {
         this.filterCity = React.createRef();
     }
 
-    //need function for up/down voting
+    //Upon submission of filter form
     filterResults = event => {
         event.preventDefault();
 
@@ -20,11 +20,13 @@ export default class Filter extends Component {
     }
 
     render() {
+        //Add the "All" option and ensure no duplicates
         const cities =this.context.spaces.map(space => space.city)
         cities.unshift('All')
         
         const citiesFilter = [...new Set(cities)]
 
+        //Add the "All" option and ensure no duplicates
         const types = this.context.types
         types.unshift('All')
         

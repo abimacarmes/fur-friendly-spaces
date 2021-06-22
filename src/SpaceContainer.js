@@ -15,7 +15,7 @@ export default class SpaceContainer extends Component {
 
         var filteredSpaces = this.context.spaces;
 
-        //Handles filtered results
+        //Applies the combination of folders selected by the user.
         if(filterType === 'All' || filterCity ==='All'){
             filteredSpaces = this.context.spaces
         }
@@ -26,6 +26,7 @@ export default class SpaceContainer extends Component {
             filteredSpaces = filteredSpaces.filter(space => space.city === filterCity)
         }
 
+        //If the selected filters do not have results, display a message.
         var noResults = "";
         if(filteredSpaces.length === 0){
             noResults = `There are currently no spaces that fit your filter criteria - we'd love for you to go exploring and add new spaces to the list!`

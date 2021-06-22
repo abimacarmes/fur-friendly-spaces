@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-//import {Route, Link, BrowserRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import FurFriendlyContext from './FurFriendlyContext'
 
 export default class Homepage extends Component {
@@ -18,7 +18,20 @@ export default class Homepage extends Component {
                 <p>Fur Friendly Spaces aims to combine exploring all your city has to offer with quality time with your puppy!</p>
                 <p>Whether you're visiting a new city or just trying to find a nice patio where you can both enjoy some time in the sun.</p>
                 <p>Fur Friendly Spaces allows dog-lovers to find and submit places they've found that are dog friendly.</p>
-                <p>If you visit one of the recommended spaces, feel free to give it a vote based on your experience with your pup! This just makes it easier for everyone to make sure wherever they go, their four-legged friend can too.</p>
+                <p>If you visit one of the recommended spaces,feel free to give it a vote based on your experience with your pup! This just makes it easier for everyone to make sure wherever they go, their four-legged friend can too.</p>
+                
+                <br/><br/>
+
+                <div className="homepageLinks">
+                    <h3>Pages in the website:</h3>
+                    <ul>
+                        <li><Link to='/'>Homepage</Link></li>
+                        <li><Link to='/spaces'>All Spaces</Link></li>
+                        <li><Link to='/add-space'>Add New Space</Link></li>
+                    </ul>
+                </div>
+                
+
                 <h4>Browse the available cities below:</h4>
                 {citiesFilter.map(city => (
                     <button key={city}

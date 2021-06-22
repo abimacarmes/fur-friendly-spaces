@@ -9,11 +9,13 @@ export default class Space extends Component {
         negativeImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533915.png"
     }
 
-    //need function for up/down voting
+    //Upon click on up-vote image
     onUpVote = event => {
         event.preventDefault();
 
+        //Ensures that the Space isn't a sample to avoid errors
         if(this.props.space.id !== "N/A"){ 
+            //Change image source to show the vote has been registered
             this.setState({
                 positiveImgSrc: "https://image.flaticon.com/icons/png/512/1533/1533913.png"
             })
@@ -22,10 +24,13 @@ export default class Space extends Component {
         }
     }
 
+    //Upon click on up-vote image
     onDownVote = event => {
         event.preventDefault();
 
+        //Ensures that the Space isn't a sample to avoid errors
         if(this.props.space.id !== "N/A"){
+            //Change image source to show the vote has been registered
             this.setState({
                 negativeImgSrc: 'https://image.flaticon.com/icons/png/512/1533/1533919.png'
             })

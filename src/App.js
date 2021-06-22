@@ -20,6 +20,7 @@ export default class App extends Component {
         filterCity: "All"
     }  
 
+    //Loads backend data upon page load.
     componentDidMount(){
         fetch(`${API_URL_BASE}/spaces`)
         .then(spacesResult => {
@@ -32,14 +33,13 @@ export default class App extends Component {
             this.setState({
                 spaces: spacesJson
             })
-            
         })
         .catch(error =>
             console.log(error.message)
         )
     }
     
-
+    //Upon submission of a new Space for backend.
     addSpace = (name, address, city, type) => {
         console.log('Adding Space: '+ name)
         const oldSpaces = this.state.spaces
@@ -80,6 +80,7 @@ export default class App extends Component {
         
     }
 
+    //Context function for updating the "Type" filter
     updateFilterType = (filter) => {
         console.log('Filter by ' + filter);
         
@@ -87,7 +88,8 @@ export default class App extends Component {
             filterType: filter
         })
     }
-
+    
+    //Context function for updating the "City" filter
     updateFilterCity = (filter) => {
         console.log('Filter by ' + filter);
 
@@ -95,7 +97,8 @@ export default class App extends Component {
             filterCity: filter
         })
     }
-
+    
+    //Context function for up-voting a Space
     upVote = (id) => {
         const spaceIndex = this.state.spaces.findIndex(space => space.id === id);
         
@@ -132,6 +135,7 @@ export default class App extends Component {
         })
     }
 
+    //Context function for up-voting a Space
     downVote = (id) => {
         const spaceIndex = this.state.spaces.findIndex(space => space.id === id)
         
@@ -168,6 +172,7 @@ export default class App extends Component {
         })
     }
     
+    //Creates routes for website
     mainRoutes = () => {
         return(
             <>

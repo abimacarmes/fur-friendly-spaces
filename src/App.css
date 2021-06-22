@@ -57,6 +57,16 @@ header a{
     text-decoration-color: #0DBED9;
 }
 
+.homepageLinks li{
+    list-style-type: none;
+    text-align: center;
+}
+
+.homepageLinks a{
+    color:#404b57;
+}
+
+
 .filter{
     position:sticky;
     top:90px;
@@ -174,8 +184,8 @@ header a{
 }
 
 .newSpace form > *{
-    margin: 20px;
-    font-size: 26px;
+    margin: 10px;
+    font-size: 20px;
 }
 
 .addSpaceConfirm button{
